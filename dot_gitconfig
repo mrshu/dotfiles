@@ -1,15 +1,15 @@
 [user]
-	email = mr@shu.io
-	name = mr.Shu
+  email = mr@shu.io
+  name = mr.Shu
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) <%an>%Creset' --abbrev-commit
-	up = "!git remote update -p; git merge --ff-only @{u}"
-	graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
-	stat = status -sb
-	last = log -1 --stat
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue) <%an>%Creset' --abbrev-commit
+  up = "!git remote update -p; git merge --ff-only @{u}"
+  graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
+  stat = status -sb
+  last = log -1 --stat
   pr = !git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && :
 [core]
-	editor = vim
-	whitespace = trailing-space,space-before-tab
+  editor = vim
+  whitespace = trailing-space,space-before-tab
 [apply]
-	whitespace = fix
+  whitespace = fix
