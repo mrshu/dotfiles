@@ -23,12 +23,15 @@ class Package:
 PACKAGES = (
     Package('alacritty'),
     Package('bat'),
-#    Package('fish'),
+    Package('fish'),
+    Package('gh'),
+    Package('iosevka-nerd-font', brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
     Package('gh'),
     Package('jq'),
     Package('neovim'),
     Package('ncdu'),
     Package('ripgrep'),
+    Package('tmux'),
 )
 
 
