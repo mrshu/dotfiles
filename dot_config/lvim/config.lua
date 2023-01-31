@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = false
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "lunar"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -166,14 +166,13 @@ lvim.builtin.treesitter.highlight.enable = true
 
 -- Additional Plugins
 lvim.plugins = {
---     {
---       "folke/trouble.nvim",
---       cmd = "TroubleToggle",
---     },
-{ "tpope/vim-surround" },
-{ "tpope/vim-fugitive" },
-{ "averms/black-nvim" },
-
+      {
+        "folke/trouble.nvim",
+        cmd = "TroubleToggle",
+      },
+      { "tpope/vim-surround" },
+      { "tpope/vim-fugitive" },
+      { "averms/black-nvim" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
