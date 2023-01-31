@@ -23,10 +23,14 @@ class Package:
 PACKAGES = (
     Package('alacritty'),
     Package('bat'),
+#    Package('fish'),
+    Package('gh'),
+    Package('jq'),
     Package('neovim'),
-    Package('fish'),
+    Package('ncdu'),
     Package('ripgrep'),
 )
+
 
 def get_os_platform() -> str:
     """
@@ -39,14 +43,16 @@ def get_os_platform() -> str:
         return ""
     return uname.lower().strip()
 
+
 def get_packages_for_platform(packages: tuple, package_manager: str) -> list:
     result = []
     for pkg in packages:
         result.append(getattr(pkg, package_manager))
     return result
 
+
 def main():
-    platform = get_os_platform() 
+    platform = get_os_platform()
 
     if platform == 'darwin':
         packages = get_packages_for_platform(PACKAGES, 'brew')
@@ -64,5 +70,6 @@ def main():
             latest=True,
             _sudo=True
         )
+
 
 main()
