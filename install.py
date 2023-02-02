@@ -12,11 +12,11 @@ class Package:
     dnf_package: Optional[str] = None
 
     @property
-    def brew(self) -> str:
+    def brew(self) -> Optional[str]:
         return self.brew_package if self.brew_package else self.name
 
     @property
-    def dnf(self) -> str:
+    def dnf(self) -> Optional[str]:
         return self.dnf_package if self.dnf_package else self.name
 
 
@@ -51,10 +51,10 @@ def get_os_platform() -> str:
 def get_packages_for_platform(packages: tuple, package_manager: str) -> list:
     result = []
     for pkg in packages:
-        if not pkg.name:
-            continue
         result.append(getattr(pkg, package_manager))
-    return result
+
+    # Cleanup the results of Nones and return
+    return [r for r in result if r is not None]
 
 
 def main():
