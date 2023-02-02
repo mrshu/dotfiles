@@ -7,7 +7,7 @@ from pyinfra import host
 
 @dataclass
 class Package:
-    name: str
+    name: Optional[str] = None
     brew_package: Optional[str] = None
     dnf_package: Optional[str] = None
 
@@ -25,12 +25,13 @@ PACKAGES = (
     Package('bat'),
     Package('fish'),
     Package('gh'),
-    Package('iosevka-nerd-font', brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
+    Package(None, brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
     Package('gh'),
     Package('jq'),
     Package('neovim'),
     Package('ncdu'),
     Package('ripgrep'),
+    Package(None, brew_package='rectangle'),
     Package('tmux'),
 )
 
@@ -50,6 +51,8 @@ def get_os_platform() -> str:
 def get_packages_for_platform(packages: tuple, package_manager: str) -> list:
     result = []
     for pkg in packages:
+        if not pkg.name:
+            continue
         result.append(getattr(pkg, package_manager))
     return result
 
