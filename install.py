@@ -26,7 +26,10 @@ PACKAGES = (
     Package('fish'),
     Package('gh'),
     Package(None, dnf_package='gnome-pomodoro'),
-    Package(None, brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
+    # https://fedora.pkgs.org/37/terra/iosevka-nerd-fonts-0:2.3.3-1.fc37.noarch.rpm.html
+    Package(None,
+            dnf_package='iosevka-nerd-fonts',
+            brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
     Package('jq'),
     Package('neovim'),
     Package('ncdu'),
