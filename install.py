@@ -23,6 +23,7 @@ class Package:
 PACKAGES = (
     Package('alacritty'),
     Package('bat'),
+    Package('fd'),
     Package('fish'),
     Package('gh'),
     Package(None, dnf_package='gnome-pomodoro'),
