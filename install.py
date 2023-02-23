@@ -27,15 +27,17 @@ PACKAGES = (
     Package('fish'),
     Package('gh'),
     Package(None, dnf_package='gnome-pomodoro'),
-    # https://fedora.pkgs.org/37/terra/iosevka-nerd-fonts-0:2.3.3-1.fc37.noarch.rpm.html
+    # https://fedora.pkgs.org/37/terra/hack-nerd-fonts-0:2.3.3-2.fc37.noarch.rpm.html
+    # dnf config-manager --add-repo https://terra.fyralabs.com/terra.repo
     Package(None,
-            dnf_package='iosevka-nerd-fonts',
-            brew_package='homebrew/cask-fonts/font-iosevka-nerd-font'),
+            dnf_package='hack-nerd-fonts',
+            brew_package='homebrew/cask-fonts/font-hack-nerd-font'),
     Package('jq'),
     Package('neovim'),
     Package('ncdu'),
     Package('ripgrep'),
     Package(None, brew_package='rectangle'),
+    Package('task'),
     Package('tmux'),
 )
 
