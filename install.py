@@ -23,8 +23,9 @@ class Package:
 PACKAGES = (
     Package('alacritty'),
     Package('bat'),
-    Package('fd'),
+    Package('fd-find'),
     Package('fish'),
+    Package('flameshot'),
     Package('gh'),
     Package(None, dnf_package='gnome-pomodoro'),
     # https://fedora.pkgs.org/37/terra/hack-nerd-fonts-0:2.3.3-2.fc37.noarch.rpm.html
@@ -32,6 +33,7 @@ PACKAGES = (
     Package(None,
             dnf_package='hack-nerd-fonts',
             brew_package='homebrew/cask-fonts/font-hack-nerd-font'),
+    Package('htop'),
     Package('jq'),
     Package('neovim'),
     Package('ncdu'),
