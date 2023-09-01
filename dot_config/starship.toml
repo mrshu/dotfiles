@@ -1,0 +1,216 @@
+format = """
+[$os](bg:seperators fg:white)\
+[](bg:background fg:seperators)\
+([$username](bg:background)[](bg:background fg:seperators))\
+([$directory](bold bg:background fg:blue))\
+([](bg:background fg:seperators)[$git_branch$git_status$git_commit](bg:background fg:160))\
+([](bg:background fg:seperators)[$c$cmake$elixir$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$python$lua$rlang$swift$scala](bg:background fg:blue))\
+([](bg:background fg:seperators)[$aws$docker_context$kubernetes](bg:background))\
+([](bg:background fg:seperators)[$helm$package$terraform](bg:background))\
+[ ](fg:background)\
+\n$character
+"""
+
+right_format = """(
+[](fg:background)\
+([$status](bg:background)[](bg:background fg:seperators))\
+([$cmd_duration](bg:background fg:yellow)[](bg:background fg:seperators))\
+([$conda](bg:background fg:blue)[](bg:background fg:seperators))\
+[$time](bg:background)\
+([󰇙](bg:background fg:seperators)[$hostname](bg:background fg:red))\
+)
+"""
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+palette = 'basic'
+[palettes.basic]
+white = '#111111'
+background = '#333333'
+seperators = '#999999'
+
+[aws]
+symbol = " "
+format = '$symbol($profile)(\($region\))(\[$duration\]) '
+
+[character] # colors from ~/.config/kitty/lighthaus-theme.conf
+success_symbol = '[🅸  ❯](bold fg:seperators bg:white)'
+error_symbol = '[🅸  ❯](bold #ef596f)'
+vicmd_symbol = '[🅽  ❮](bold fg:seperators bg:white)'
+vimcmd_replace_one_symbol = '[🆁  ❮](bold #d55fde)'
+vimcmd_replace_symbol = '[🆁  ❮](bold #d55fde)'
+vimcmd_visual_symbol = '[🆅  ❮](bold #e5c07b)'
+
+[cmd_duration]
+format = ' $duration   '
+min_time = 500
+
+[conda]
+format = '( $environment )'
+ignore_base = true
+
+[directory]
+format = " $path "
+truncation_length = 99
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = " 󰈙 "
+"Downloads" = "  "
+"Music" = "  "
+"Pictures" = "  "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = " 󰈙 "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important 󰈙 " = " 󰈙 "
+
+[c]
+symbol = " "
+format = ' $symbol ($version) '
+
+[docker_context]
+symbol = " "
+format = ' $symbol $context  $path '
+
+[elixir]
+symbol = " "
+format = ' $symbol ($version) '
+
+[elm]
+symbol = " "
+format = ' $symbol ($version) '
+
+[git_branch]
+symbol = ""
+format = ' $symbol $branch '
+
+[git_status]
+ahead = "⇡${count}"
+diverged = "⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+modified = "!${count}"
+untracked = "?${count}"
+staged = "+${count}"
+format = '$all_status$ahead_behind '
+
+[golang]
+symbol = " "
+format = ' $symbol ($version) '
+
+[gradle]
+format = ' $symbol ($version) '
+
+[haskell]
+symbol = " "
+format = ' $symbol ($version) '
+
+[helm]
+symbol = "⎈ "
+format = " [$symbol ($version)]($style)"
+
+[java]
+symbol = " "
+format = ' $symbol ($version) '
+
+[julia]
+symbol = " "
+format = ' $symbol ($version) '
+
+[kubernetes]
+symbol = "󱃾 "
+format = '\[[$symbol$context( \($namespace\))]($style)\] '
+
+[nodejs]
+symbol = ""
+format = ' $symbol ($version) '
+
+[nim]
+symbol = "󰆥 "
+format = ' $symbol ($version) '
+
+# An alternative to the username module which displays a symbol that
+# represents the current operating system
+[os]
+style = "bg:background"
+format = " $symbol"
+disabled = false # Disabled by default
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
+
+
+[rust]
+symbol = ""
+format = ' $symbol ($version) '
+
+[scala]
+symbol = " "
+format = ' $symbol ($version) '
+
+[package]
+disabled = false
+style = 'bg:background fg:208'
+format = ' [$symbol$version]($style) '
+
+[python]
+symbol = ' '
+style = 'bg:background fg:yellow'
+format = ' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\))]($style) '
+
+[status]
+symbol = '✘'
+success_symbol = ''
+not_executable_symbol = ''
+not_found_symbol = '󰦀'
+sigint_symbol = '󱊈'
+signal_symbol = '󱐋'
+format = ' $symbol$signal_name$maybe_int '
+map_symbol = true
+disabled = false
+
+[time]
+disabled = false
+time_format = "%T" # https://docs.rs/chrono/0.4.7/chrono/format/strftime/index.html
+format = ' $time '
