@@ -2,8 +2,8 @@ format = """
 [$os](bg:seperators fg:white)\
 [](bg:background fg:seperators)\
 ([$username](bg:background)[](bg:background fg:seperators))\
-([$directory](bold bg:background fg:blue))\
-([](bg:background fg:seperators)[$git_branch$git_status$git_commit](bg:background fg:160))\
+([$directory](bold bg:background fg:green))\
+([](bg:background fg:seperators)[$git_branch$git_status$git_commit](bg:background fg:red))\
 ([](bg:background fg:seperators)[$c$cmake$elixir$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$python$lua$rlang$swift$scala](bg:background fg:blue))\
 ([](bg:background fg:seperators)[$aws$docker_context$kubernetes](bg:background))\
 ([](bg:background fg:seperators)[$helm$package$terraform](bg:background))\
