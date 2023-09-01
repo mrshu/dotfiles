@@ -23,6 +23,7 @@ class Package:
 PACKAGES = (
     Package('alacritty'),
     Package('bat'),
+    Package('direnv'),
     Package('fd-find'),
     Package('fish'),
     Package('flameshot'),
@@ -39,6 +40,7 @@ PACKAGES = (
     Package('ncdu'),
     Package('ripgrep'),
     Package(None, brew_package='rectangle'),
+    Package('starship'),
     Package('task'),
     Package('tmux'),
 )
