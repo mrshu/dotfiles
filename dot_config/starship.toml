@@ -98,30 +98,30 @@ staged = "+${count}"
 format = '$all_status$ahead_behind '
 
 [golang]
-symbol = " "
+symbol = ""
 format = ' $symbol ($version) '
 
 [gradle]
 format = ' $symbol ($version) '
 
 [haskell]
-symbol = " "
+symbol = ""
 format = ' $symbol ($version) '
 
 [helm]
-symbol = "⎈ "
+symbol = "⎈"
 format = " [$symbol ($version)]($style)"
 
 [java]
-symbol = " "
+symbol = ""
 format = ' $symbol ($version) '
 
 [julia]
-symbol = " "
+symbol = ""
 format = ' $symbol ($version) '
 
 [kubernetes]
-symbol = "󱃾 "
+symbol = "󱃾"
 format = '\[[$symbol$context( \($namespace\))]($style)\] '
 
 [nodejs]
