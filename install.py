@@ -36,6 +36,9 @@ PACKAGES = (
             brew_package='homebrew/cask-fonts/font-hack-nerd-font'),
     Package('htop'),
     Package('jq'),
+    # https://copr.fedorainfracloud.org/coprs/atim/lazygit/
+    # dnf copr enable atim/lazygit -y
+    Package('lazygit'),
     Package('neovim'),
     Package('ncdu'),
     Package('ripgrep'),
@@ -45,6 +48,7 @@ PACKAGES = (
     Package('starship'),
     Package('task'),
     Package('tmux'),
+    Package('zellij'),
 )
 
 
