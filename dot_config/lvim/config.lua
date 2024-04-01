@@ -173,7 +173,116 @@ lvim.plugins = {
       { "tpope/vim-surround" },
       { "tpope/vim-fugitive" },
       { "averms/black-nvim" },
+      { "renerocksai/calendar-vim" },
+      { "renerocksai/telekasten.nvim",
+        dependencies = {
+          { "nvim-telescope/telescope.nvim" },
+          { "nvim-telescope/telescope-media-files.nvim" }
+        },
+      },
 }
+
+local telekasten_home_dir = vim.fn.expand("~/Nextcloud/zettelkasten")
+local telekasten_templates_dir = telekasten_home_dir .. "/templates"
+require('telekasten').setup({
+  home = telekasten_home_dir, -- Put the name of your notes directory here
+	dailies = telekasten_home_dir .. "/" .. "daily",
+	weeklies = telekasten_home_dir .. "/" .. "weekly",
+	templates = telekasten_templates_dir ,
+
+  -- Image subdir for pasting
+    -- subdir name
+    -- or nil if pasted images shouldn't go into a special subdir
+  image_subdir = "img",
+
+  -- File extension for note files
+  extension    = ".md",
+
+	-- template for new notes (new_note, follow_link)
+	template_new_note = telekasten_templates_dir .. "/new_note.md",
+
+	-- template for newly created daily notes (goto_today)
+	template_new_daily = telekasten_templates_dir .. "/daily.md",
+
+	-- template for newly created weekly notes (goto_thisweek)
+	template_new_weekly = telekasten_templates_dir .. "/weekly.md",
+
+	image_link_style = "markdown",
+
+	-- default sort option: 'filename', 'modified'
+	sort = "modified",
+
+    -- Generate note filenames. One of:
+    -- "title" (default) - Use title if supplied, uuid otherwise
+    -- "uuid" - Use uuid
+    -- "uuid-title" - Prefix title by uuid
+    -- "title-uuid" - Suffix title with uuid
+  new_note_filename = "uuid-title",
+  -- file uuid type ("rand" or input for os.date such as "%Y%m%d%H%M")
+  uuid_type = "%Y%m%d-%H%M",
+  -- UUID separator
+  uuid_sep = "-",
+
+  -- Tag notation: '#tag', '@tag', ':tag:', 'yaml-bare'
+  tag_notation = "#tag",
+
+  -- When linking to a note in subdir/, create a [[subdir/title]] link
+  -- instead of a [[title only]] link
+  subdirs_in_links = true,
+
+  -- Command palette theme: dropdown (window) or ivy (bottom panel)
+  command_palette_theme = "ivy",
+
+  -- Tag list theme:
+    -- get_cursor (small tag list at cursor)
+    -- dropdown (window)
+    -- ivy (bottom panel)
+  show_tags_theme = "dropdown",
+
+  -- telescope actions behavior
+  close_after_yanking = false,
+  insert_after_inserting = true,
+
+  -- Previewer for media files (images mostly)
+    -- "telescope-media-files" if you have telescope-media-files.nvim installed
+    -- "catimg-previewer" if you have catimg installed
+    -- "viu-previewer" if you have viu installed
+  media_previewer = "telescope-media-files",
+
+})
+
+vim.api.nvim_set_keymap('n', '<Leader>zf', [[<Cmd>lua require('telekasten').find_notes()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zd', [[<Cmd>lua require('telekasten').find_daily_notes()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zg', [[<Cmd>lua require('telekasten').search_notes()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zz', [[<Cmd>lua require('telekasten').follow_link()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zT', [[<Cmd>lua require('telekasten').goto_today()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zW', [[<Cmd>lua require('telekasten').goto_thisweek()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zw', [[<Cmd>lua require('telekasten').find_weekly_notes()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zn', [[<Cmd>lua require('telekasten').new_note()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zN', [[<Cmd>lua require('telekasten').new_templated_note()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zy', [[<Cmd>lua require('telekasten').yank_notelink()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zc', [[<Cmd>lua require('telekasten').show_calendar()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zC', [[<Cmd>CalendarT<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zi', [[<Cmd>lua require('telekasten').paste_img_and_link()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zt', [[<Cmd>lua require('telekasten').toggle_todo()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zb', [[<Cmd>lua require('telekasten').show_backlinks()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zF', [[<Cmd>lua require('telekasten').find_friends()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zI', [[<Cmd>lua require('telekasten').insert_img_link({ i=true })<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zp', [[<Cmd>lua require('telekasten').preview_img()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zm', [[<Cmd>lua require('telekasten').browse_media()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>za', [[<Cmd>lua require('telekasten').show_tags()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>#', [[<Cmd>lua require('telekasten').show_tags()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>zr', [[<Cmd>lua require('telekasten').rename_note()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>z', [[<Cmd>lua require('telekasten').panel()<CR>]], { noremap = true, silent = true })
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.api.nvim_set_keymap('i', '[[', [[<Cmd>lua require('telekasten').insert_link({ i = true })<CR>]], { noremap = true, silent = true })
+    vim.api.nvim_set_keymap('i', '#', [[<Cmd>lua require('telekasten').show_tags({ i = true })<CR>]], { noremap = true, silent = true })
+  end,
+})
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
