@@ -40,6 +40,8 @@ PACKAGES = (
     Package('ncdu'),
     Package('ripgrep'),
     Package(None, brew_package='rectangle'),
+    # https://copr.fedorainfracloud.org/coprs/atim/starship/
+    # dnf copr enable atim/starship
     Package('starship'),
     Package('task'),
     Package('tmux'),
