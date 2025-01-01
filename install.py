@@ -27,6 +27,7 @@ PACKAGES = (
     Package(None, dnf_package="fd-find", brew_package="fd"),
     Package("fish"),
     Package("flameshot"),
+    Package("fzf"),
     Package("gh"),
     Package(None, dnf_package="gnome-pomodoro"),
     # https://fedora.pkgs.org/37/terra/hack-nerd-fonts-0:2.3.3-2.fc37.noarch.rpm.html

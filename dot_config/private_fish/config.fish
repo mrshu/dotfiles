@@ -3,12 +3,12 @@ if status is-interactive
 end
 
 if test -d "$HOME/micromamba"
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba init' !!
-  set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
-  set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
-  $MAMBA_EXE shell hook --shell fish --prefix $MAMBA_ROOT_PREFIX | source
-# <<< mamba initialize <<<
+    # >>> mamba initialize >>>
+    # !! Contents within this block are managed by 'mamba init' !!
+    set -gx MAMBA_EXE "$HOME/.local/bin/micromamba"
+    set -gx MAMBA_ROOT_PREFIX "$HOME/micromamba"
+    $MAMBA_EXE shell hook --shell fish --prefix $MAMBA_ROOT_PREFIX | source
+    # <<< mamba initialize <<<
 end
 
 # editors
@@ -20,5 +20,6 @@ set -gx MANWIDTH 80
 
 starship init fish | source
 direnv hook fish | source
+fzf --fish | source
 
 fish_vi_key_bindings
