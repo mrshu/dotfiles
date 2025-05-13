@@ -35,7 +35,7 @@ PACKAGES = (
     Package(
         None,
         dnf_package="hack-nerd-fonts",
-        brew_package="homebrew/cask-fonts/font-hack-nerd-font",
+        brew_package="font-hack-nerd-font",
     ),
     Package("htop"),
     Package("jq"),
