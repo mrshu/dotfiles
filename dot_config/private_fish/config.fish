@@ -12,10 +12,10 @@ if test -d "$HOME/micromamba"
 end
 
 # editors
-set -gx VISUAL lvim
-set -gx EDITOR lvim
+set -gx VISUAL nvim
+set -gx EDITOR nvim
 # use neovim to read man pages
-set -gx MANPAGER "lvim +Man!"
+set -gx MANPAGER "nvim +Man!"
 set -gx MANWIDTH 80
 
 starship init fish | source
