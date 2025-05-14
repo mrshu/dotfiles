@@ -39,11 +39,13 @@ PACKAGES = (
     ),
     Package("htop"),
     Package("jq"),
+    Package("keepassxc"),
     # https://copr.fedorainfracloud.org/coprs/atim/lazygit/
     # dnf copr enable atim/lazygit -y
     Package("lazygit"),
-    Package("neovim"),
     Package("ncdu"),
+    Package("neovim"),
+    Package("nextcloud"),
     Package("ripgrep"),
     Package(None, brew_package="rectangle"),
     # https://copr.fedorainfracloud.org/coprs/atim/starship/
