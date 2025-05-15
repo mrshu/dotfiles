@@ -1,0 +1,64 @@
+theme = "Blood-Moon"
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mouse = "Middle"
+
+[colors.bright]
+black = "#696969"
+blue = "#007FFF"
+cyan = "#00CCCC"
+green = "#03C03C"
+magenta = "#FF1493"
+red = "#FF2400"
+white = "#FFFAFA"
+yellow = "#FDFF00"
+
+[colors.normal]
+black = "#10100E"
+blue = "#0087BD"
+cyan = "#20B2AA"
+green = "#009F6B"
+magenta = "#9A4EAE"
+red = "#C40233"
+white = "#C6C6C4"
+yellow = "#FFD700"
+
+[colors.primary]
+background = "#10100E"
+foreground = "#C6C6C4"
+
+[font]
+size = 10
+
+[font.bold]
+family = "Hack Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "Hack Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "Hack Nerd Font"
+style = "Italic"
+
+[font.normal]
+family = "Hack Nerd Font"
+style = "Regular"
+
+[mouse]
+hide_when_typing = true
+
+[mouse.double_click]
+threshold = 300
+
+[mouse.triple_click]
+threshold = 300
+
+[selection]
+save_to_clipboard = false
+semantic_escape_chars = ''',│`|:"' ()[]{}<>'''
+
+[window]
+decorations = "none"
