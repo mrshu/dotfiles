@@ -1,23 +1,30 @@
+## Starship prompt config
+"$schema" = "https://starship.rs/config-schema.json"
+
+continuation_prompt = '[∙](bright-black) '
+
 format = """
 [$os](bg:seperators fg:white)\
 [](bg:background fg:seperators)\
 ([$username](bg:background)[](bg:background fg:seperators))\
 ([$directory](bold bg:background fg:green))\
-([](bg:background fg:seperators)[$git_branch$git_status$git_commit](bg:background fg:red))\
-([](bg:background fg:seperators)[$c$cmake$elixir$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$python$lua$rlang$swift$scala](bg:background fg:blue))\
-([](bg:background fg:seperators)[$aws$docker_context$kubernetes](bg:background))\
-([](bg:background fg:seperators)[$helm$package$terraform](bg:background))\
+([](bg:background fg:seperators)[$git_branch](bg:background fg:vcs)[$git_status$git_commit$git_state](bg:background fg:vcs))\
+([](bg:background fg:seperators)[$c$cmake$elixir$elm$golang$gradle$haskell$java$julia$nodejs$nim$rust$python$lua$rlang$swift$scala](bg:background fg:lang))\
+([](bg:background fg:seperators)$aws)([](bg:background fg:seperators)$gcloud)([](bg:background fg:seperators)$docker_context)([](bg:background fg:seperators)$kubernetes)([](bg:background fg:seperators)$container)\
+([](bg:background fg:seperators)$helm)([](bg:background fg:seperators)$package)([](bg:background fg:seperators)$terraform)\
 [ ](fg:background)\
 \n$character
 """
 
 right_format = """(
 [](fg:background)\
-([$status](bg:background)[](bg:background fg:seperators))\
-([$cmd_duration](bg:background fg:yellow)[](bg:background fg:seperators))\
-([$conda](bg:background fg:blue)[](bg:background fg:seperators))\
+([$status](bg:background)[](bg:background fg:seperators)[$sudo](bg:background)[](bg:background fg:seperators))\
+([$cmd_duration](bg:background fg:warn)[](bg:background fg:seperators))\
+([$conda](bg:background fg:lang)[](bg:background fg:seperators))\
+([$jobs](bg:background)[](bg:background fg:seperators))\
+([$battery](bg:background)[](bg:background fg:seperators))\
 [$time](bg:background)\
-([󰇙](bg:background fg:seperators)[$hostname](bg:background fg:red))\
+([$hostname](bg:background fg:red))\
 )
 """
 
@@ -29,22 +36,48 @@ palette = 'basic'
 white = '#111111'
 background = '#333333'
 seperators = '#999999'
+vcs = '#ff0000'
+lang = '#61afef'
+aws_brand = '#FF9900'
+gcp_brand = '#4285F4'
+docker_brand = '#2496ED'
+k8s_brand = '#326CE5'
+warn = '#e5c07b'
+error = '#ef596f'
+good = '#98c379'
 
 [aws]
 symbol = " "
-format = '$symbol($profile)(\($region\))(\[$duration\]) '
+format = '[ $symbol($profile)(\($region\)) ]($style)'
+style = 'bg:prev_bg fg:aws_brand'
+[aws.profile_aliases]
+prod_senior = 'prod'
+production = 'prod'
+staging = 'stage'
+development = 'dev'
+[aws.region_aliases]
+us-east-1 = 'use1'
+us-east-2 = 'use2'
+us-west-2 = 'usw2'
+eu-central-1 = 'euc1'
 
 [character] # colors from ~/.config/kitty/lighthaus-theme.conf
-success_symbol = '[🅸  ❯](bold fg:seperators bg:white)'
-error_symbol = '[🅸  ❯](bold #ef596f)'
-vicmd_symbol = '[🅽  ❮](bold fg:seperators bg:white)'
-vimcmd_replace_one_symbol = '[🆁  ❮](bold #d55fde)'
-vimcmd_replace_symbol = '[🆁  ❮](bold #d55fde)'
-vimcmd_visual_symbol = '[🆅  ❮](bold #e5c07b)'
+# success
+success_symbol = '[🅸](fg:seperators bg:white)[  ❯](bold fg:seperators bg:white)'
+# error
+error_symbol = '[🅸](fg:#ef596f bg:white)[  ❯](bold fg:#ef596f bg:white)'
+
+# vi mode
+vicmd_symbol = '[🅽](fg:seperators bg:white)[  ❯](bold fg:seperators bg:white)'
+vimcmd_replace_one_symbol = '[🆁](#d55fde)[  ❯](bold #d55fde)'
+vimcmd_replace_symbol =     '[🆁](#d55fde)[  ❯](bold #d55fde)'
+vimcmd_visual_symbol =      '[🆅](#e5c07b)[  ❯](bold #e5c07b)'
+
 
 [cmd_duration]
 format = ' $duration   '
 min_time = 500
+style = 'bg:prev_bg fg:warn'
 
 [conda]
 format = '( $environment )'
@@ -74,7 +107,8 @@ format = ' $symbol ($version) '
 
 [docker_context]
 symbol = " "
-format = ' $symbol $context  $path '
+format = '[ $symbol $context ]($style)'
+style = 'bg:prev_bg fg:docker_brand'
 
 [elixir]
 symbol = " "
@@ -97,6 +131,16 @@ untracked = "?${count}"
 staged = "+${count}"
 format = '$all_status$ahead_behind '
 
+[git_state]
+format = ' [\($state( $progress_current/$progress_total)\)]($style) '
+style = 'bold yellow'
+
+[git_commit]
+commit_hash_length = 7
+only_detached = true
+tag_disabled = true
+format = ' [\($hash\)]($style) '
+
 [golang]
 symbol = ""
 format = ' $symbol ($version) '
@@ -110,7 +154,8 @@ format = ' $symbol ($version) '
 
 [helm]
 symbol = "⎈"
-format = " [$symbol ($version)]($style)"
+format = " [ $symbol ($version) ]($style)"
+style = 'bg:prev_bg'
 
 [java]
 symbol = ""
@@ -122,7 +167,17 @@ format = ' $symbol ($version) '
 
 [kubernetes]
 symbol = "󱃾"
-format = '\[[$symbol$context( \($namespace\))]($style)\] '
+format = '[ \[[$symbol$context( \($namespace\))\] ]($style)'
+style = 'bg:prev_bg fg:k8s_brand'
+
+[[kubernetes.contexts]]
+context_pattern = 'prod.*'
+style = 'bold red'
+context_alias = 'prod'
+
+[[kubernetes.contexts]]
+context_pattern = 'gke_.*_(?P<cluster>[\w-]+)'
+context_alias = 'gke-$cluster'
 
 [nodejs]
 symbol = ""
@@ -191,14 +246,60 @@ format = ' $symbol ($version) '
 
 [package]
 disabled = false
-style = 'bg:background fg:208'
-format = ' [$symbol$version]($style) '
+style = 'bg:prev_bg fg:208'
+format = '[ $symbol$version ]($style)'
 
 [python]
 symbol = ' '
-style = 'bg:background fg:yellow'
-format = ' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\))]($style) '
+style = 'bg:prev_bg fg:yellow'
+format = '[ ${symbol}(\($virtualenv\)) ]($style)'
+detect_extensions = []
+detect_files = []
+detect_folders = []
 
+[lua]
+symbol = ' '
+style = 'bg:prev_bg fg:blue'
+
+[container]
+format = '[ $symbol($name) ]($style)'
+symbol = '⬢ '
+style = 'bold red dimmed'
+
+[gcloud]
+# Only show when $account is non-empty; keep splitters intact
+format = '($account [  $account(\($project\)) ]($style))'
+symbol = ' '
+style = 'bg:prev_bg fg:gcp_brand'
+
+[jobs]
+symbol = ' '
+number_threshold = 2
+symbol_threshold = 1
+format = '[ $symbol$number ]($style)'
+style = 'bg:prev_bg fg:seperators'
+
+[sudo]
+symbol = ' '
+style = 'bg:prev_bg bold blue'
+disabled = false
+
+[battery]
+charging_symbol = '⇡ '
+discharging_symbol = '⇣ '
+full_symbol = '• '
+format = '[ $symbol$percentage ]($style)'
+[[battery.display]]
+threshold = 10
+style = 'bg:prev_bg bold red'
+[[battery.display]]
+threshold = 30
+style = 'bg:prev_bg bold yellow'
+
+[hostname]
+ssh_only = true
+format = '[ 󰇙$hostname ]($style)'
+style = 'bg:prev_bg fg:red'
 [status]
 symbol = '✘'
 success_symbol = ''
@@ -209,6 +310,7 @@ signal_symbol = '󱐋'
 format = ' $symbol$signal_name$maybe_int '
 map_symbol = true
 disabled = false
+style = 'bg:prev_bg fg:error'
 
 [time]
 disabled = false
