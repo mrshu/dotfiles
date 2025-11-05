@@ -129,17 +129,17 @@ behind = "⇣${count}"
 modified = "!${count}"
 untracked = "?${count}"
 staged = "+${count}"
-format = ' $all_status$ahead_behind'
+format = ' $all_status$ahead_behind '
 
 [git_state]
-format = ' [\($state( $progress_current/$progress_total)\)]($style)'
+format = ' [\($state( $progress_current/$progress_total)\)]($style) '
 style = 'bold yellow'
 
 [git_commit]
 commit_hash_length = 7
 only_detached = true
 tag_disabled = true
-format = ' [\($hash\)]($style)'
+format = ' [\($hash\)]($style) '
 
 [golang]
 symbol = ""
@@ -247,7 +247,9 @@ format = '[ $symbol$version ]($style)'
 [python]
 symbol = ' '
 style = 'bg:prev_bg fg:yellow'
-format = '[ ${symbol}(\($virtualenv\)) ]($style)'
+version_format = 'v${major}.${minor}'
+format = '[ ${symbol}(${version} )(\($virtualenv\) )]($style)'
+python_binary = ["python3", "python"]
 detect_extensions = []
 detect_files = []
 detect_folders = []
