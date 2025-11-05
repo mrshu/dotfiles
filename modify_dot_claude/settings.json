@@ -1,0 +1,9 @@
+{{/* chezmoi:modify-template */}}
+{{- /* Sets Claude Code's statusLine to ccstatusline (object form) while preserving other keys. */ -}}
+{{- $cmd := (or .ccstatusline_command "npx -y ccstatusline@latest") -}}
+{{- $in := .chezmoi.stdin | trim -}}
+{{- if eq $in "" -}}
+{{- dict "statusLine" (dict "type" "command" "command" $cmd) | toPrettyJson -}}
+{{- else -}}
+{{- fromJson $in | setValueAtPath "statusLine" (dict "type" "command" "command" $cmd) | toPrettyJson -}}
+{{- end -}}
