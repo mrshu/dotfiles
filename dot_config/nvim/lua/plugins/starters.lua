@@ -187,7 +187,7 @@ return {
 
   -- Full-buffer inline diff overlay (coexists with gitsigns nav).
   {
-    "echasnovski/mini.diff",
+    "nvim-mini/mini.diff",
     event = "BufReadPost",
     opts = {
       view = { style = "sign" },
