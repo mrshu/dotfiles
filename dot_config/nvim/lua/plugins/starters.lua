@@ -184,22 +184,4 @@ return {
       end
     end,
   },
-
-  -- Full-buffer inline diff overlay (coexists with gitsigns nav).
-  {
-    "nvim-mini/mini.diff",
-    event = "BufReadPost",
-    opts = {
-      view = { style = "sign" },
-    },
-    keys = {
-      {
-        "<leader>do",
-        function()
-          require("mini.diff").toggle_overlay()
-        end,
-        desc = "Diff overlay toggle",
-      },
-    },
-  },
 }
