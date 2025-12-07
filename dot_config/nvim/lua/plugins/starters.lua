@@ -110,4 +110,78 @@ return {
       },
     },
   },
+
+  -- Toggle a git-status tree that only lists changed files.
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    keys = {
+      {
+        "<leader>gs",
+        function()
+          require("neo-tree.command").execute({
+            source = "git_status",
+            position = "left",
+            toggle = true,
+          })
+        end,
+        desc = "Neo-tree: changed files",
+      },
+    },
+    opts = function(_, opts)
+      local function default_git_base()
+        local head = vim.fn.systemlist({
+          "git",
+          "symbolic-ref",
+          "--quiet",
+          "--short",
+          "refs/remotes/origin/HEAD",
+        })
+        if vim.v.shell_error == 0 and head[1] and head[1] ~= "" then
+          return head[1]
+        end
+      end
+
+      opts.git_status = opts.git_status or {}
+      opts.git_status.git_base = opts.git_status.git_base or default_git_base()
+    end,
+  },
+
+  -- Inline git hunks with easy navigation and inline previews.
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = function(_, opts)
+      local old_attach = opts.on_attach
+
+      opts.current_line_blame = true
+
+      opts.on_attach = function(bufnr)
+        if old_attach then
+          old_attach(bufnr)
+        end
+
+        local gs = package.loaded.gitsigns
+        local function map(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc, silent = true })
+        end
+
+        map("n", "]c", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "]c", bang = true })
+          else
+            gs.nav_hunk("next")
+          end
+        end, "Next Hunk")
+
+        map("n", "[c", function()
+          if vim.wo.diff then
+            vim.cmd.normal({ "[c", bang = true })
+          else
+            gs.nav_hunk("prev")
+          end
+        end, "Prev Hunk")
+
+        map("n", "<leader>hp", gs.preview_hunk_inline, "Preview Hunk Inline")
+      end
+    end,
+  },
 }
