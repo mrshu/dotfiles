@@ -4,7 +4,13 @@
 
 # Font Settings
 # ===========================================
-# Using system default monospace font
+# Use system monospace with explicit symbol fallbacks for enclosed letters
+font-family = "Hack Nerd Font Mono"
+font-family = "Noto Sans Symbols 2"
+font-family = "Noto Sans Symbols"
+font-family = "Adwaita Mono"
+font-family = "Noto Color Emoji"
+font-family = "Noto Emoji"
 font-size = 10
 
 # Shell Integration
