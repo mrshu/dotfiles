@@ -291,10 +291,13 @@ full_symbol = '• '
 format = '[ $symbol$percentage ]($style)'
 [[battery.display]]
 threshold = 10
-style = 'bg:prev_bg bold red'
+style = 'bg:background bold red'
 [[battery.display]]
 threshold = 30
-style = 'bg:prev_bg bold yellow'
+style = 'bg:background bold yellow'
+[[battery.display]]
+threshold = 100
+style = 'bg:background fg:good'
 
 [hostname]
 ssh_only = true
