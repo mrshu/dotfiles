@@ -170,14 +170,9 @@ symbol = "󱃾"
 format = '[ \[[$symbol$context( \($namespace\))\] ]($style)'
 style = 'bg:prev_bg fg:k8s_brand'
 
-[[kubernetes.contexts]]
-context_pattern = 'prod.*'
-style = 'bold red'
-context_alias = 'prod'
-
-[[kubernetes.contexts]]
-context_pattern = 'gke_.*_(?P<cluster>[\w-]+)'
-context_alias = 'gke-$cluster'
+[kubernetes.context_aliases]
+'prod.*' = 'prod'
+'gke_.*_(?P<cluster>[\w-]+)' = 'gke-$cluster'
 
 [nodejs]
 symbol = ""
