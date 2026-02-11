@@ -14,7 +14,11 @@
       {
         "id": "3",
         "type": "block-timer",
-        "color": "brightBlack"
+        "color": "brightBlack",
+        "metadata": {
+          "inverse": "false",
+          "display": "progress-short"
+        }
       },
       {
         "id": "4",
@@ -31,7 +35,7 @@
       },
       {
         "id": "7",
-        "type": "block-timer",
+        "type": "context-percentage-usable",
         "color": "yellow"
       }
     ],
