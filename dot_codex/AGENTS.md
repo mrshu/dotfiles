@@ -19,3 +19,18 @@ Example:
     - Add `--x` flag and validate inputs
     - Update API client to include X in requests
     - Add unit tests for success and error cases
+
+## Subagents
+
+Use subagents eagerly for well-defined tasks with clear scope that are
+good candidates for delegation.
+
+Good candidates include:
+
+- Detailed code investigation that requires substantial code research,
+  where the goal is a well-targeted answer to a specific question.
+- Implementation of a standalone module with no overlap with other
+  files.
+
+Remember to close each subagent once its work is complete and you have
+no further tasks for it.
