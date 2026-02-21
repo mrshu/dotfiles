@@ -23,11 +23,6 @@ Example:
 
 ## Commit Safety Guardrails
 
-- Before creating commits in a repository, set and verify local git
-  identity:
-  - `git config user.name "mr.Shu"`
-  - `git config user.email "mr@shu.io"`
-  - `git config --get user.name && git config --get user.email`
 - Never use `git commit -m "..."` for multi-line messages or commit
   text containing backticks/code spans.
 - Use this exact, copy/paste-safe pattern for commit messages
