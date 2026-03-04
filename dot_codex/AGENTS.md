@@ -3,6 +3,17 @@
 - Use Conventional Commits for all commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`).
 - When committing, include a body that explains both the motivation (why) and the concrete change (what/how) so the change is understandable without reading the diff.
 
+## Commit-to-Diff Fidelity
+
+- Commit messages must describe the staged diff first, not just the
+  discussion that led to it.
+- Do not claim files, behaviors, or removals that are not present in
+  the commit.
+- If discussion context is important, include it as motivation, but tie
+  it directly to concrete changes in the diff.
+- Before committing, check `git diff --staged --name-only` and
+  `git diff --staged` and ensure the message matches exactly.
+
 ## Commit Message Body Style
 
 - Prefer **2 or 3 short sentences** of prose, then a **small bullet list** of concrete changes.
