@@ -9,6 +9,8 @@
 - Start the prose with a short **diagnosis** of the previous state, e.g. "Previously this was implemented with X; this commit changes it to Y".
 - Bullet points should be implementation-oriented (what changed) and reference key concepts/paths/flags when helpful.
 - The whole commit should be wrapped at 72 columns.
+- The body should cover: the motivation or problem being solved, what the implementation does at a high level, key design decisions or trade-offs, and notable details (edge cases handled, files affected, things *not* changed).
+- The body should give a reviewer or future reader enough context to understand the commit without reading the diff.
 
 Example:
 
