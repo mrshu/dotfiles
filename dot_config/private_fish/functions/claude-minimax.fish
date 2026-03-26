@@ -10,5 +10,5 @@ function claude-minimax --wraps='claude' --description 'Run Claude Code against 
         ANTHROPIC_DEFAULT_HAIKU_MODEL="MiniMax-M2.7" \
         API_TIMEOUT_MS="3000000" \
         CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1" \
-        claude $argv
+        claude --strict-mcp-config --mcp-config ~/.claude/minimax.mcp.json $argv
 end
