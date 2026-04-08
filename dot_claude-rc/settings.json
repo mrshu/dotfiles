@@ -1,0 +1,8 @@
+{
+  "skipDangerousModePermissionPrompt": true,
+  "statusLine": {
+    "type": "command",
+    "command": "CLAUDE_CONFIG_DIR=$HOME/.claude-rc/ npx -y ccstatusline@latest",
+    "padding": 0
+  }
+}
