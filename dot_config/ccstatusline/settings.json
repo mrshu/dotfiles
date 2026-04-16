@@ -71,23 +71,9 @@
     ],
     [
       {
-        "id": "5799d6a6-2425-43bf-8894-bc4aa222dc12",
-        "type": "weekly-reset-timer",
-        "color": "",
-        "rawValue": false,
-        "metadata": {
-          "display": "time"
-        }
-      },
-      {
-        "id": "d00b7268-e4bf-475a-a8d4-58278cdabf0f",
-        "type": "custom-text",
-        "customText": " ("
-      },
-      {
-        "id": "38f829d3-f31e-45ec-8fa5-11241a563131",
-        "type": "weekly-usage",
-        "color": "brightBlack",
+        "id": "75d05126-274f-436b-a01e-85e7e9827fa9",
+        "type": "session-usage",
+        "color": "brightBlue",
         "rawValue": true,
         "metadata": {
           "display": "time"
@@ -99,25 +85,40 @@
         "customText": "/"
       },
       {
-        "id": "75d05126-274f-436b-a01e-85e7e9827fa9",
-        "type": "session-usage",
-        "color": "brightBlue",
+        "id": "38f829d3-f31e-45ec-8fa5-11241a563131",
+        "type": "weekly-usage",
+        "color": "brightBlack",
         "rawValue": true,
         "metadata": {
           "display": "time"
         }
       },
       {
-        "id": "3a753cf5-946f-4280-bde0-f59bcfcffb38",
-        "type": "custom-text",
-        "customText": ") "
+        "id": "21c6ece0-9d51-4102-b87f-1f430a48bca8",
+        "type": "separator"
       },
       {
         "id": "df7a7cd7-7bac-4209-947c-bd0975c6b8f5",
         "type": "reset-timer",
-        "color": "",
+        "color": "brightBlue",
         "bold": false,
         "metadata": {
+          "compact": "true"
+        }
+      },
+      {
+        "id": "5ca1fc20-6cd4-4676-9ba6-982866e5c438",
+        "type": "custom-text",
+        "customText": " / ",
+        "color": "white"
+      },
+      {
+        "id": "5799d6a6-2425-43bf-8894-bc4aa222dc12",
+        "type": "weekly-reset-timer",
+        "color": "brightBlack",
+        "rawValue": false,
+        "metadata": {
+          "display": "time",
           "compact": "true"
         }
       }
