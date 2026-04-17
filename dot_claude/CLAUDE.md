@@ -1,5 +1,7 @@
 # System-wide Claude Code Instructions
 
+Restate the question in fully concrete terms, making every implicit detail explicit. Then answer."
+
 ## Code Review Principles
 
 When reviewing code (PRs, diffs, or during `/review`), go beyond surface-level correctness:
