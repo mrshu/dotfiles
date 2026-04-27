@@ -64,3 +64,8 @@ Good candidates include:
 
 Spawn one agent per concern, run in parallel. Remember to close each
 subagent once its work is complete and you have no further tasks for it.
+
+## GitHub Comments
+
+- Never use MCP or connector tools to create, update, or send GitHub comments.
+- Use the `gh` CLI instead when a GitHub comment needs to be posted.
