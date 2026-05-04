@@ -1,0 +1,16 @@
+{{/* chezmoi:modify-template */}}
+{{- /* Enables Codex goals while preserving the rest of the local config. */ -}}
+{{- $in := .chezmoi.stdin -}}
+{{- if eq ($in | trim) "" -}}
+[features]
+goals = true
+{{- else if regexMatch `(?m)^goals\s*=` $in -}}
+{{ regexReplaceAll `(?m)^goals\s*=.*$` $in `goals = true` }}
+{{- else if regexMatch `(?m)^\[features\]\s*$` $in -}}
+{{ regexReplaceAll `(?m)^\[features\]\s*$` $in "[features]\ngoals = true" }}
+{{- else -}}
+{{ $in }}
+
+[features]
+goals = true
+{{- end -}}
