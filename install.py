@@ -32,6 +32,7 @@ class Package:
 PACKAGES = (
     Package("alacritty"),
     Package("bat"),
+    Package(None, brew_cask="codexbar"),
     Package("direnv"),
     Package(None, dnf_package="fd-find", brew_package="fd"),
     Package("fish"),
