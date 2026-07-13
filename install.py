@@ -61,6 +61,7 @@ PACKAGES = (
     # dnf copr enable atim/starship
     Package("starship"),
     Package("task"),
+    Package(None, brew_cask="thaw"),
     Package("tmux"),
     Package("zellij"),
 )
