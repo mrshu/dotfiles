@@ -1,0 +1,13 @@
+{{/* chezmoi:modify-template */}}
+{{- /* Pins the .claude-rc profile's statusLine, permission prompt and session retention
+       while preserving every other key Claude Code writes into this file. */ -}}
+{{- $cmd := get . "ccstatusline_rc_command" | default "CLAUDE_CONFIG_DIR=$HOME/.claude-rc/ npx -y ccstatusline@latest" -}}
+{{- $in := .chezmoi.stdin | trim -}}
+{{- $cfg := dict -}}
+{{- if ne $in "" -}}
+{{- $cfg = fromJson $in -}}
+{{- end -}}
+{{- $cfg = $cfg | setValueAtPath "statusLine" (dict "type" "command" "command" $cmd "padding" 0) -}}
+{{- $cfg = $cfg | setValueAtPath "skipDangerousModePermissionPrompt" true -}}
+{{- $cfg = $cfg | setValueAtPath "cleanupPeriodDays" 365 -}}
+{{- $cfg | toPrettyJson -}}

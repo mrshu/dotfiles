@@ -1,0 +1,11 @@
+{{/* chezmoi:modify-template */}}
+{{- /* Pins Claude Code's statusLine and session retention while preserving every other key. */ -}}
+{{- $cmd := get . "ccstatusline_command" | default "npx -y ccstatusline@latest" -}}
+{{- $in := .chezmoi.stdin | trim -}}
+{{- $cfg := dict -}}
+{{- if ne $in "" -}}
+{{- $cfg = fromJson $in -}}
+{{- end -}}
+{{- $cfg = $cfg | setValueAtPath "statusLine" (dict "type" "command" "command" $cmd "padding" 0) -}}
+{{- $cfg = $cfg | setValueAtPath "cleanupPeriodDays" 365 -}}
+{{- $cfg | toPrettyJson -}}
