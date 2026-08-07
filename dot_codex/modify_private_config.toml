@@ -1,16 +1,47 @@
 {{/* chezmoi:modify-template */}}
-{{- /* Enables Codex goals while preserving the rest of the local config. */ -}}
-{{- $in := .chezmoi.stdin -}}
-{{- if eq ($in | trim) "" -}}
-[features]
-goals = true
-{{- else if regexMatch `(?m)^goals\s*=` $in -}}
-{{ regexReplaceAll `(?m)^goals\s*=.*$` $in `goals = true` }}
-{{- else if regexMatch `(?m)^\[features\]\s*$` $in -}}
-{{ regexReplaceAll `(?m)^\[features\]\s*$` $in "[features]\ngoals = true" }}
-{{- else -}}
-{{ $in }}
+{{- /*
+  Pins a few Codex feature flags while preserving the rest of the local config.
 
-[features]
-goals = true
+  This is a modify-template rather than a managed file because Codex owns and
+  rewrites config.toml itself: project trust levels, [hooks.state], notice
+  dismissals and MCP entries all accumulate there. We only force the handful of
+  keys below and pass everything else through untouched.
+
+  Why these values:
+    goals               - wanted; the original reason this template exists.
+    collaboration_modes - stage `removed` as of codex 0.146, but a value written
+                          into config.toml still forces it on. Left enabled, a
+                          long `codex exec --ephemeral` run tries to spawn a
+                          delegation thread ("collab spawn failed: no thread
+                          with id"), which ends the run with empty stdout — so a
+                          non-interactive reviewer looks like it found nothing.
+    steer               - also stage `removed`; interactive-only, nothing depends
+                          on it. Dropped to keep retired flags out of config.
+
+  Deliberately NOT pinned: multi_agent. It is stable and disabling it does not
+  prevent the collab spawn above (verified: `-c features.multi_agent=false`
+  reaches the resolver and the spawn still happens), so pinning it off would
+  cost a working feature for no gain. The real fix for that failure is on the
+  caller side: no --ephemeral, and bound the agent's tool budget.
+
+  `codex features list` shows each flag's stage and effective state.
+*/ -}}
+{{- $features := dict
+      "goals" "true"
+      "collaboration_modes" "false"
+      "steer" "false" -}}
+{{- $out := .chezmoi.stdin | trimSuffix "\n" -}}
+{{- if eq ($out | trim) "" -}}
+{{-   $out = "[features]" -}}
+{{- else if not (regexMatch `(?m)^\[features\]\s*$` $out) -}}
+{{-   $out = printf "%s\n\n[features]" $out -}}
 {{- end -}}
+{{- range $key, $value := $features -}}
+{{-   $line := printf "%s = %s" $key $value -}}
+{{-   if regexMatch (printf `(?m)^%s\s*=` $key) $out -}}
+{{-     $out = regexReplaceAll (printf `(?m)^%s\s*=.*$` $key) $out $line -}}
+{{-   else -}}
+{{-     $out = regexReplaceAll `(?m)^\[features\]\s*$` $out (printf "[features]\n%s" $line) -}}
+{{-   end -}}
+{{- end -}}
+{{ $out }}
