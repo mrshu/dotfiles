@@ -1,5 +1,6 @@
 # Agent Instructions
 
+- If my instructions are ambiguous, ask me to clarify before proceeding.
 - Use Conventional Commits for all commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`).
 - When committing, include a body that explains both the motivation (why) and the concrete change (what/how) so the change is understandable without reading the diff.
 

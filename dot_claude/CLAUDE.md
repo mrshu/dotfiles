@@ -1,6 +1,8 @@
 # System-wide Claude Code Instructions
 
-Restate the question in fully concrete terms, making every implicit detail explicit. Then answer."
+Restate the question in fully concrete terms, making every implicit detail explicit. Then answer.
+
+If my instructions are ambiguous, ask me to clarify before proceeding.
 
 ## Code Review Principles
 
