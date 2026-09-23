@@ -1,5 +1,5 @@
 {{/* chezmoi:modify-template */}}
-{{- /* Pins Claude Code's statusLine, git attribution and session retention while preserving every other key. */ -}}
+{{- /* Pins Claude Code's statusLine, git attribution, session retention and prompt suggestions (off) while preserving every other key. */ -}}
 {{- $cmd := get . "ccstatusline_command" | default "npx -y ccstatusline@latest" -}}
 {{- $in := .chezmoi.stdin | trim -}}
 {{- $cfg := dict -}}
@@ -8,5 +8,6 @@
 {{- end -}}
 {{- $cfg = $cfg | setValueAtPath "statusLine" (dict "type" "command" "command" $cmd "padding" 0) -}}
 {{- $cfg = $cfg | setValueAtPath "cleanupPeriodDays" 365 -}}
+{{- $cfg = $cfg | setValueAtPath "promptSuggestionEnabled" false -}}
 {{- $cfg = $cfg | setValueAtPath "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
 {{- $cfg | toPrettyJson -}}

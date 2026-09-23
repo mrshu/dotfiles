@@ -1,6 +1,6 @@
 {{/* chezmoi:modify-template */}}
-{{- /* Pins the .claude-rc profile's statusLine, git attribution, permission prompt and
-       session retention while preserving every other key Claude Code writes into this file. */ -}}
+{{- /* Pins the .claude-rc profile's statusLine, git attribution, permission prompt,
+       session retention and prompt suggestions (off) while preserving every other key Claude Code writes into this file. */ -}}
 {{- $cmd := get . "ccstatusline_rc_command" | default "CLAUDE_CONFIG_DIR=$HOME/.claude-rc/ npx -y ccstatusline@latest" -}}
 {{- $in := .chezmoi.stdin | trim -}}
 {{- $cfg := dict -}}
@@ -10,5 +10,6 @@
 {{- $cfg = $cfg | setValueAtPath "statusLine" (dict "type" "command" "command" $cmd "padding" 0) -}}
 {{- $cfg = $cfg | setValueAtPath "skipDangerousModePermissionPrompt" true -}}
 {{- $cfg = $cfg | setValueAtPath "cleanupPeriodDays" 365 -}}
+{{- $cfg = $cfg | setValueAtPath "promptSuggestionEnabled" false -}}
 {{- $cfg = $cfg | setValueAtPath "attribution" (dict "commit" "" "pr" "" "sessionUrl" false) -}}
 {{- $cfg | toPrettyJson -}}
