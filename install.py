@@ -1,7 +1,11 @@
 from dataclasses import dataclass
+import json
+from pathlib import Path
 import shlex
 from typing import Iterable, List, Optional
-from pyinfra.operations import brew, dnf
+import pyinfra
+from pyinfra.api import operation
+from pyinfra.operations import brew, dnf, server
 from pyinfra import facts
 from pyinfra import host
 
@@ -30,13 +34,14 @@ class Package:
 
 # Package catalog. Use per-manager overrides when names differ.
 PACKAGES = (
-    Package("alacritty"),
+    # macOS Alacritty is installed directly from its official releases below.
+    Package(None, dnf_package="alacritty"),
     Package("bat"),
     Package(None, brew_cask="codexbar"),
     Package("direnv"),
     Package(None, dnf_package="fd-find", brew_package="fd"),
     Package("fish"),
-    Package("flameshot"),
+    Package("flameshot", brew_cask="flameshot-org/flameshot/flameshot-org-flameshot"),
     Package("fzf"),
     Package("gh"),
     Package(None, dnf_package="gnome-pomodoro"),
@@ -74,6 +79,74 @@ DEPRECATED_BREW_TAPS = (
     "homebrew/homebrew-cask-fonts",
 )
 
+# This cask replaces the disabled homebrew/cask entry on macOS only.
+BREW_CASK_REPLACEMENTS = {
+    "flameshot-org/flameshot/flameshot-org-flameshot": "flameshot",
+}
+
+
+@operation()
+def trust_brew_casks(casks: List[str]):
+    """Trust only the selected casks on Homebrew versions with tap trust."""
+    commands = host.get_fact(facts.server.Command, "brew commands --quiet") or ""
+    if "trust" not in commands.split():
+        host.noop("This Homebrew version does not require tap trust")
+        return
+
+    trusted = json.loads(host.get_fact(facts.server.Command, "brew trust --json=v1"))
+    pending = [
+        cask for cask in casks
+        if cask not in trusted.get("casks", [])
+        and cask.rsplit("/", 1)[0] not in trusted.get("taps", [])
+    ]
+    if pending:
+        yield "brew trust --cask " + " ".join(shlex.quote(cask) for cask in pending)
+    else:
+        host.noop("The selected Homebrew casks are already trusted")
+
+
+@operation()
+def install_tap_cask(cask: str, replaces: str):
+    """Install a tapped cask, fetching before removing its old package."""
+    installed = host.get_fact(facts.brew.BrewCasks)
+    token = cask.rsplit("/", 1)[-1]
+    if token in installed:
+        installed_names = host.get_fact(
+            facts.server.Command, "brew list --cask --full-name"
+        ) or ""
+        if cask in installed_names.split():
+            host.noop(f"Cask {cask} is already installed")
+            return
+
+    # pyinfra's cask facts use bare tokens, so handle qualified names here.
+    # Check the download and checksum before removing the old app.
+    yield f"brew fetch --cask {shlex.quote(cask)}"
+    if replaces in installed:
+        yield f"brew uninstall --cask {shlex.quote(replaces)}"
+    yield f"brew install --cask {shlex.quote(cask)}"
+
+
+def install_tapped_brew_casks() -> None:
+    """Add Flameshot's upstream tap when the current release supports macOS."""
+    replacements = dict(BREW_CASK_REPLACEMENTS)
+    macos_version = host.get_fact(facts.server.Command, "sw_vers -productVersion")
+    if int(macos_version.strip().split(".")[0]) < 15:
+        del replacements["flameshot-org/flameshot/flameshot-org-flameshot"]
+        print("Skipping Flameshot: its current macOS release requires macOS 15 or newer.")
+
+    for tap in dict.fromkeys(cask.rsplit("/", 1)[0] for cask in replacements):
+        brew.tap(name=f"Add tap {tap}", src=tap)
+    trust_brew_casks(
+        name="Trust Flameshot's upstream cask",
+        casks=list(replacements),
+    )
+    for cask, replaces in replacements.items():
+        install_tap_cask(
+            name=f"Install {cask}, replacing {replaces} when needed",
+            cask=cask,
+            replaces=replaces,
+        )
+
 
 def get_os_platform() -> str:
     """
@@ -101,9 +174,10 @@ def get_packages_for_platform(packages: Iterable[Package], package_manager: str)
 
 
 def _is_path_writable_from_cmd(base_cmd: str, suffix: Optional[str] = None) -> bool:
-    """Run `base_cmd` to get a path, optionally append `suffix`, and check writability.
+    """Check writability of a directory or its nearest existing ancestor.
 
-    Returns False on any failure.
+    Missing Homebrew directories can be created when their parent is writable.
+    Returns False if the path cannot be resolved.
     """
     resolved = host.get_fact(facts.server.Command, base_cmd)
     if not resolved:
@@ -117,7 +191,11 @@ def _is_path_writable_from_cmd(base_cmd: str, suffix: Optional[str] = None) -> b
     quoted = shlex.quote(path)
     check = host.get_fact(
         facts.server.Command,
-        f"test -w {quoted} && echo writable || echo not_writable",
+        f"brew_check_path={quoted}; "
+        'while test ! -e "$brew_check_path"; do '
+        'brew_check_path=$(dirname "$brew_check_path"); done; '
+        'test -d "$brew_check_path" && test -w "$brew_check_path" '
+        "&& echo writable || echo not_writable",
     )
     return bool(check) and check.strip() == "writable"
 
@@ -140,7 +218,10 @@ def main() -> None:
 
     if platform == "darwin":
         brew_packages = get_packages_for_platform(PACKAGES, "brew")
-        brew_casks = get_packages_for_platform(PACKAGES, "brew_cask_name")
+        brew_casks = [
+            cask for cask in get_packages_for_platform(PACKAGES, "brew_cask_name")
+            if cask not in BREW_CASK_REPLACEMENTS
+        ]
 
         can_update = can_update_brew()
         can_manage_taps = can_manage_brew_taps()
@@ -165,17 +246,29 @@ def main() -> None:
                 update=can_update,
             )
 
-        if brew_casks:
-            if can_manage_brew_casks():
+        server.script(
+            name="Install or update Alacritty from its official release",
+            src=str(Path(__file__).resolve().parent / "scripts/install_alacritty.py"),
+        )
+
+        if can_manage_brew_casks():
+            if can_manage_taps:
+                install_tapped_brew_casks()
+            else:
+                print(
+                    "Skipping Flameshot setup: unable to write to the "
+                    "Homebrew taps directory."
+                )
+            if brew_casks:
                 brew.casks(
                     name=f"Install casks {', '.join(brew_casks)}",
                     casks=brew_casks,
                 )
-            else:
-                print(
-                    "Skipping brew cask installs: unable to write to the cask "
-                    "directory."
-                )
+        else:
+            print(
+                "Skipping brew cask installs: unable to write to the cask "
+                "directory."
+            )
 
     elif platform == "linux":
         packages = get_packages_for_platform(PACKAGES, "dnf")
@@ -189,5 +282,5 @@ def main() -> None:
     else:
         print(f"Unsupported platform '{platform}'. Nothing to do.")
 
-if __name__ == "__main__":
+if __name__ == "__main__" or pyinfra.is_cli:
     main()
