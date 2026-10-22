@@ -1,0 +1,26 @@
+{{- /* Apply shared preferences, then profile overrides, preserving other local keys. */ -}}
+{{- $cfg := dict -}}
+{{- if ne (.stdin | trim) "" -}}
+{{-   $cfg = fromYaml .stdin -}}
+{{- end -}}
+{{- $prefs := dict
+      "symbolPreset" "nerd"
+      "theme.dark" "titanium"
+      "modelRoles.advisor" "openai-codex/gpt-6.1-sol:high"
+      "modelRoles.smol" "anthropic/claude-sonnet-5-5"
+      "modelRoles.slow" "anthropic/claude-sonnet-5-5:high"
+      "modelRoles.default" "anthropic/claude-opus-5-5:medium"
+      "modelRoles.judge" "commandcode/typesafe/jev"
+      "defaultThinkingLevel" "auto"
+      "advisor.enabled" false
+      "statusLine.preset" "custom"
+      "statusLine.leftSegments" (list "model" "mode" "path" "git")
+      "statusLine.rightSegments" (list "token_rate" "context_pct" "cost")
+      "composer.shape" "box" -}}
+{{- range $path, $value := $prefs -}}
+{{-   $cfg = setValueAtPath $path $value $cfg -}}
+{{- end -}}
+{{- range $path, $value := .overrides -}}
+{{-   $cfg = setValueAtPath $path $value $cfg -}}
+{{- end -}}
+{{ $cfg | toYaml -}}

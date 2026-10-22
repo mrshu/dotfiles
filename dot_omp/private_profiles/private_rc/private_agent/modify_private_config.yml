@@ -1,0 +1,5 @@
+{{/* chezmoi:modify-template */}}
+{{- $overrides := dict
+      "modelRoles.default" "anthropic/claude-opus-5-5"
+      "composer.shape" "band" -}}
+{{- includeTemplate ".chezmoitemplates/omp-config.yml.tmpl" (dict "stdin" .chezmoi.stdin "overrides" $overrides) -}}

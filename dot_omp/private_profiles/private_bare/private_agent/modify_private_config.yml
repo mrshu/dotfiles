@@ -1,0 +1,10 @@
+{{/* chezmoi:modify-template */}}
+{{- $overrides := dict
+      "skills.enabled" false
+      "advisor.enabled" false
+      "modelRoles.default" "anthropic/claude-opus-4-8:medium"
+      "modelRoles.smol" "anthropic/claude-opus-4-8:medium"
+      "modelRoles.slow" "anthropic/claude-opus-4-8:medium"
+      "modelRoles.plan" "anthropic/claude-opus-4-8:medium"
+      "modelRoles.advisor" "anthropic/claude-opus-4-8:medium" -}}
+{{- includeTemplate ".chezmoitemplates/omp-config.yml.tmpl" (dict "stdin" .chezmoi.stdin "overrides" $overrides) -}}

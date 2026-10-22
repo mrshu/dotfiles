@@ -38,3 +38,29 @@ Only this cask is trusted, and `--zap` is never used. Use `brew update` and
 versions older than 15 and may need the same first-launch approval.
 
 On Linux, both apps continue to come from DNF.
+
+## OMP settings
+
+Chezmoi manages OMP preferences for the default agent and all current named
+profiles: `bare`, `codex`, `commandc`, `commandcode`, `gpt`, and `rc`.
+
+`.chezmoitemplates/omp-config.yml.tmpl` defines the standard models, UI, and
+feature settings. Each profile uses this template and supplies only its
+overrides. Shared settings apply first, followed by profile overrides.
+Other local keys in each `config.yml` are preserved.
+
+Apply only these settings from this checkout:
+
+```sh
+chezmoi --source "$PWD" apply --parent-dirs ~/.omp
+```
+
+For a new profile, copy
+`dot_omp/private_profiles/private_codex/private_agent/modify_private_config.yml`
+to the matching `private_<name>/private_agent/` directory. That file uses the
+standard setup without overrides. Apply chezmoi again to create its config.
+OMP itself does not inherit settings between profiles.
+
+Credentials, sessions, databases, caches, plugin installs, and generated
+extensions stay local. Setup markers, AutoQA consent, and Codex redemption
+choices are also local and are preserved when settings are applied.

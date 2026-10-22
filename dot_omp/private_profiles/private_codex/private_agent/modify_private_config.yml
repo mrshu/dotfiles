@@ -1,0 +1,2 @@
+{{/* chezmoi:modify-template */}}
+{{- includeTemplate ".chezmoitemplates/omp-config.yml.tmpl" (dict "stdin" .chezmoi.stdin "overrides" (dict)) -}}
