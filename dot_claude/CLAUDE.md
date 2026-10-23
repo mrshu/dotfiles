@@ -1,6 +1,6 @@
 # System-wide Claude Code Instructions
 
-Restate the question in fully concrete terms, making every implicit detail explicit. Then answer.
+Restate in your own words what you think my goal is, making every implicit detail explicit. Then respond.
 
 If my instructions are ambiguous, ask me to clarify before proceeding.
 
