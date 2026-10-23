@@ -4,6 +4,8 @@ Restate the question in fully concrete terms, making every implicit detail expli
 
 If my instructions are ambiguous, ask me to clarify before proceeding.
 
+Before adding complexity for a speculative or vanishingly unlikely race or security edge case, explain the concrete failure mode, likelihood, and complexity cost to me and get my buy-in. Do not silently expand scope for theoretical robustness.
+
 ## Code Review Principles
 
 When reviewing code (PRs, diffs, or during `/review`), go beyond surface-level correctness:
