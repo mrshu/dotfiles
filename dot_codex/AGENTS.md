@@ -1,6 +1,6 @@
 # Agent Instructions
 
-- Restate the question in fully concrete terms, making every implicit detail explicit. Then answer.
+- Restate in your own words what you think my goal is, making every implicit detail explicit. Then respond.
 - If my instructions are ambiguous, ask me to clarify before proceeding.
 - Before adding complexity for a speculative or vanishingly unlikely race or security edge case, explain the concrete failure mode, likelihood, and complexity cost to me and get my buy-in. Do not silently expand scope for theoretical robustness.
 - Use Conventional Commits for all commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`).
