@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "lines": [
     [
       {
@@ -8,20 +8,18 @@
         "color": "cyan"
       },
       {
-        "id": "2",
+        "id": "4441f974-9a44-4cbb-bd26-fcb570152edc",
         "type": "separator"
       },
       {
-        "id": "3",
-        "type": "context-length",
-        "color": "brightBlack",
+        "id": "ff0f1b23-bade-4d3f-a0d0-c12610d851ee",
+        "type": "cache-hit-rate",
         "metadata": {
-          "inverse": "false",
-          "display": "progress-short"
+          "cacheScopeSession": "false"
         }
       },
       {
-        "id": "4",
+        "id": "2",
         "type": "separator"
       },
       {
@@ -109,8 +107,8 @@
       {
         "id": "5ca1fc20-6cd4-4676-9ba6-982866e5c438",
         "type": "custom-text",
-        "customText": " / ",
-        "color": "white"
+        "color": "white",
+        "customText": " / "
       },
       {
         "id": "5799d6a6-2425-43bf-8894-bc4aa222dc12",
@@ -129,6 +127,7 @@
   "colorLevel": 2,
   "inheritSeparatorColors": false,
   "globalBold": false,
+  "gitCacheTtlSeconds": 5,
   "minimalistMode": false,
   "powerline": {
     "enabled": false,
