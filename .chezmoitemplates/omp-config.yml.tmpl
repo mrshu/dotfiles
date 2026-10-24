@@ -3,6 +3,18 @@
 {{- if ne (.stdin | trim) "" -}}
 {{-   $cfg = fromYaml .stdin -}}
 {{- end -}}
+{{- /* Backstop against destructive shell commands. Patterns use omp's glob syntax: `*` is the only wildcard and a rule must match the whole command or one segment of a compound command. `deny` holds even in yolo mode; it does not cover shells started through `eval`. */ -}}
+{{- $home := env "HOME" -}}
+{{- $bashPatterns := list (dict "match" "sudo *" "approval" "prompt") -}}
+{{- range $match := list
+      "rm * /" "rm * / *" "*/rm * /"
+      "rm * ~" "rm * ~/" "rm * ~ *" "rm * $HOME" "rm * $HOME/"
+      (printf "rm * %s" $home) (printf "rm * %s/" $home)
+      "diskutil erase*" "diskutil zeroDisk*" "diskutil secureErase*" "diskutil partitionDisk*" "diskutil apfs delete*"
+      "dd *of=/dev/*" "mkfs*" "newfs*"
+      "shutdown" "shutdown *" "reboot" "reboot *" "halt" "halt *" "poweroff*" -}}
+{{-   $bashPatterns = append $bashPatterns (dict "match" $match "approval" "deny") -}}
+{{- end -}}
 {{- $prefs := dict
       "symbolPreset" "nerd"
       "theme.dark" "titanium"
@@ -16,7 +28,8 @@
       "statusLine.preset" "custom"
       "statusLine.leftSegments" (list "model" "mode" "path" "git")
       "statusLine.rightSegments" (list "token_rate" "context_pct" "cost")
-      "composer.shape" "box" -}}
+      "composer.shape" "box"
+      "bash.patterns" $bashPatterns -}}
 {{- range $path, $value := $prefs -}}
 {{-   $cfg = setValueAtPath $path $value $cfg -}}
 {{- end -}}
