@@ -1,18 +1,17 @@
 # Agent Instructions
 
 - Restate in your own words what you think my goal is, making every implicit detail explicit. Then respond.
-- If my instructions are ambiguous, ask me to clarify before proceeding.
 - Before adding complexity for a speculative or vanishingly unlikely race or security edge case, explain the concrete failure mode, likelihood, and complexity cost to me and get my buy-in. Do not silently expand scope for theoretical robustness.
 - Use Conventional Commits for all commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`).
 - When committing, include a body that explains both the motivation (why) and the concrete change (what/how) so the change is understandable without reading the diff.
 
-## Leading words
+## Doors
 
-two-way door - a decision you can walk back through: code, branches, PRs, test data, dev infra.
+A two-way door is a decision you can walk back: code, branches, PRs, test data, dev infra. A one-way door is one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make, a message sent to another person.
 
-one-way door - one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make, a message sent to another person.
+Walk through two-way doors and show me after. Stop at one-way doors. Don't ask rubber stamps: questions whose only sensible answer is yes, like "Want me to commit this?" They cost me a round trip and teach nothing. If running something could answer the question, run it instead. Save questions for taste and product calls only I can make: one at a time, with your recommendation, using your harness's built-in question tool. No is an acceptable answer to me too.
 
-rubber stamp - a question whose only sensible answer is yes. asking it costs me a round trip and teaches nothing.
+Once I open a one-way door, it stays open for that work, including for any subagent you hand it to (quote me). Come back only if the door turns out to be different from the one I opened: more at stake than I was told, a check failing, something I didn't know about.
 
 ## Commit-to-Diff Fidelity
 
