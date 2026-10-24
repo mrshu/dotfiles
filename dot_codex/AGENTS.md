@@ -7,9 +7,11 @@
 
 ## Doors
 
-A two-way door is a decision you can walk back: code, branches, PRs, test data, dev infra. A one-way door is one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make (always look before you delete), a message sent to another person.
+- **Two-way door:** a decision you can walk back: code, branches, PRs, test data, dev infra.
+- **One-way door:** one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make (always look before you delete), a message sent to another person.
+- **Rubber stamp:** a question whose only sensible answer is yes, like "Want me to commit this?" Asking it costs me a round trip and teaches nothing.
 
-Walk through two-way doors and show me after. Stop at one-way doors. Don't ask rubber stamps: questions whose only sensible answer is yes, like "Want me to commit this?" They cost me a round trip and teach nothing. If running something could answer the question, run it instead. Save questions for taste and product calls only I can make: one at a time, with your recommendation, using your harness's built-in question tool. No is an acceptable answer to me too.
+Walk through two-way doors and show me after. Stop at one-way doors. Don't ask rubber stamps. If running something could answer the question, run it instead. Save questions for taste and product calls only I can make: one at a time, with your recommendation, using your harness's built-in question tool. No is an acceptable answer to me too.
 
 Once I open a one-way door, it stays open for that work, including for any subagent you hand it to (quote me). Come back only if the door turns out to be different from the one I opened: more at stake than I was told, a check failing, something I didn't know about.
 
