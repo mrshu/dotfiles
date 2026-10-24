@@ -6,7 +6,7 @@ Before adding complexity for a speculative or vanishingly unlikely race or secur
 
 ## Doors
 
-A two-way door is a decision you can walk back: code, branches, PRs, test data, dev infra. A one-way door is one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make, a message sent to another person.
+A two-way door is a decision you can walk back: code, branches, PRs, test data, dev infra. A one-way door is one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make (always look before you delete), a message sent to another person.
 
 Walk through two-way doors and show me after. Stop at one-way doors. Don't ask rubber stamps: questions whose only sensible answer is yes, like "Want me to commit this?" They cost me a round trip and teach nothing. If running something could answer the question, run it instead. Save questions for taste and product calls only I can make: one at a time, with your recommendation, using your harness's built-in question tool. No is an acceptable answer to me too.
 
