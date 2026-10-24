@@ -6,6 +6,14 @@ If my instructions are ambiguous, ask me to clarify before proceeding.
 
 Before adding complexity for a speculative or vanishingly unlikely race or security edge case, explain the concrete failure mode, likelihood, and complexity cost to me and get my buy-in. Do not silently expand scope for theoretical robustness.
 
+## Leading words
+
+two-way door - a decision you can walk back through: code, branches, PRs, test data, dev infra.
+
+one-way door - one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make, a message sent to another person.
+
+rubber stamp - a question whose only sensible answer is yes. asking it costs me a round trip and teaches nothing.
+
 ## Code Review Principles
 
 When reviewing code (PRs, diffs, or during `/review`), go beyond surface-level correctness:

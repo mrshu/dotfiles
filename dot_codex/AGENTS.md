@@ -6,6 +6,14 @@
 - Use Conventional Commits for all commit messages (e.g., `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`).
 - When committing, include a body that explains both the motivation (why) and the concrete change (what/how) so the change is understandable without reading the diff.
 
+## Leading words
+
+two-way door - a decision you can walk back through: code, branches, PRs, test data, dev infra.
+
+one-way door - one you can't: prod data, deploys to users, force-pushing a shared branch, deleting what you didn't make, a message sent to another person.
+
+rubber stamp - a question whose only sensible answer is yes. asking it costs me a round trip and teaches nothing.
+
 ## Commit-to-Diff Fidelity
 
 - Commit messages must describe the staged diff first, not just the
