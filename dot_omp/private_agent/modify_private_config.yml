@@ -1,2 +1,2 @@
 {{/* chezmoi:modify-template */}}
-{{- includeTemplate ".chezmoitemplates/omp-config.yml.tmpl" (dict "stdin" .chezmoi.stdin "overrides" (dict)) -}}
+{{- includeTemplate ".chezmoitemplates/omp-config.yml.tmpl" (dict "stdin" .chezmoi.stdin "overrides" (dict "modelRoles.default" "commandcode-alpha/deepseek/deepseek-v4.1-flash")) -}}

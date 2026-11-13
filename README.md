@@ -61,6 +61,13 @@ to the matching `private_<name>/private_agent/` directory. That file uses the
 standard setup without overrides. Apply chezmoi again to create its config.
 OMP itself does not inherit settings between profiles.
 
+Every profile gets the `commandcode` model preset: `/modelpreset switch
+commandcode` assigns deepseek v4.1 flash to `default`, Claude Sonnet 5.5 to
+`smol`/`slow`, GPT-6.1 Sol to `advisor`, and keeps `judge` on
+`commandcode/typesafe/jev` — all through the `commandcode-alpha` provider.
+The global config additionally pins `modelRoles.default` to deepseek v4.1
+flash, so new sessions start on it without switching a preset.
+
 Credentials, sessions, databases, caches, plugin installs, and generated
 extensions stay local. Setup markers, AutoQA consent, and Codex redemption
 choices are also local and are preserved when settings are applied.
