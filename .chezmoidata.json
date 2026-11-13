@@ -1,0 +1,26 @@
+{
+  "agentSkills": {
+    "repos": {
+      "https://github.com/anthropics/skills.git": ["frontend-design"],
+      "https://github.com/borgr/paper-sharpener.git": ["paper-review", "writing-assistant"],
+      "https://github.com/cloudflare/security-audit-skill.git": ["security-audit"],
+      "https://github.com/mrshu/agent-skills.git": [
+        "claude-exec",
+        "codex-exec",
+        "gh-pr-image",
+        "overleaf-comment",
+        "paper-siphon",
+        "review-anvil",
+        "review-anvil-improve-pr",
+        "review-anvil-pr",
+        "review-anvil-readonly",
+        "scholar-search"
+      ],
+      "https://github.com/oaustegard/claude-skills.git": ["declauding"],
+      "https://github.com/pasky/chrome-cdp-skill.git": ["chrome-cdp"],
+      "https://github.com/prehistoriq/skills.git": ["prehistoriq", "show-me-pr"],
+      "https://github.com/stablyai/orca.git": ["orca-cli", "orchestration"],
+      "https://github.com/vercel-labs/agent-browser.git": ["agent-browser"]
+    }
+  }
+}

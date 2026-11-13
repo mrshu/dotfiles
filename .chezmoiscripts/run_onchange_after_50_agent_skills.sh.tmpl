@@ -1,0 +1,52 @@
+#!/bin/sh
+# Restore global agent skills declared in .chezmoidata.json (agentSkills.repos).
+#
+# The skills CLI has no lockfile restore for global scope (vercel-labs/skills
+# #283, #549): "npx skills install -g" is ignored and the v3 global lock is not
+# accepted. The only restore primitive is "skills add <repo> --skill <name> -g",
+# which is what this script loops over. It is idempotent: installed skills are
+# skipped without touching the network.
+#
+# This script re-runs only when its rendered content changes, i.e. when the
+# skill list above changes. Updating the already-installed skills stays a
+# manual "npx skills update -g".
+set -eu
+
+if ! command -v npx >/dev/null 2>&1; then
+	printf 'agent-skills: npx not found on PATH, skipping\n' >&2
+	exit 0
+fi
+
+# install_repo REPO SKILL...: install the SKILLs missing on this machine.
+install_repo() {
+	repo=$1
+	shift
+
+	missing=
+	for name in "$@"; do
+		case $name in
+		*[!a-z0-9._-]*)
+			printf 'agent-skills: skipping invalid skill name: %s\n' "$name" >&2
+			continue
+			;;
+		esac
+		# Skills land either in the canonical ~/.agents/skills (when a universal
+		# agent is targeted) or directly in a per-agent directory.
+		if [ -e "$HOME/.agents/skills/$name/SKILL.md" ] || [ -e "$HOME/.claude/skills/$name/SKILL.md" ]; then
+			continue
+		fi
+		missing="$missing --skill $name"
+	done
+
+	[ -n "$missing" ] || return 0
+
+	# $missing is unquoted on purpose: word splitting into repeated --skill flags
+	# is what the CLI wants, and the name check above keeps it safe.
+	printf 'agent-skills: installing from %s:%s\n' "$repo" "$missing"
+	# shellcheck disable=SC2086
+	npx -y skills@1 add "$repo" $missing -g -y -a claude-code -a cursor
+}
+
+{{ range $repo, $skills := .agentSkills.repos -}}
+install_repo {{ $repo | quote }}{{ range $skills }} {{ . | quote }}{{ end }}
+{{ end -}}

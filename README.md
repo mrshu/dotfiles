@@ -64,3 +64,28 @@ OMP itself does not inherit settings between profiles.
 Credentials, sessions, databases, caches, plugin installs, and generated
 extensions stay local. Setup markers, AutoQA consent, and Codex redemption
 choices are also local and are preserved when settings are applied.
+
+## Agent skills
+
+`npx skills add … -g` owns `~/.agents/skills/<name>/` and the symlinks in
+`~/.claude/skills/`. chezmoi does not manage those files; it records *which*
+global skills a machine should have.
+
+- `.chezmoidata.json` → `agentSkills.repos` maps each source repo to the
+  skills installed from it (currently 21 skills from 9 repos).
+- `.chezmoiscripts/run_onchange_after_50_agent_skills.sh.tmpl` installs any
+  skill that is missing, via
+  `npx skills add <repo> --skill <name> -g -y -a claude-code -a cursor`.
+  It re-runs only when its rendered content changes, and skips skills already
+  present without touching the network.
+
+There is no lockfile-based restore for global scope
+([#283](https://github.com/vercel-labs/skills/issues/283),
+[#549](https://github.com/vercel-labs/skills/issues/549)):
+`experimental_install` only reads the project `skills-lock.json` and rejects
+the v3 global lock, so the manifest above is the source of truth.
+
+- New skill: `npx skills add <repo> -s <name> -g`, then add the name to the
+  manifest and run `chezmoi apply`.
+- Update: `npx skills update -g`.
+- Do not `chezmoi add ~/.agents/skills`; the CLI rewrites those files.
