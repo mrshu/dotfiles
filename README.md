@@ -61,14 +61,21 @@ to the matching `private_<name>/private_agent/` directory. That file uses the
 standard setup without overrides. Apply chezmoi again to create its config.
 OMP itself does not inherit settings between profiles.
 
-Every profile gets the `commandcode` model preset: `/modelpreset switch
-commandcode` assigns deepseek v4.1 flash to `default`, flash-fast to `smol`,
-deepseek v4-pro to `slow`, GPT-6.1 Terra to `advisor`, and keeps `judge` on
-`commandcode/typesafe/jev` — all through the `commandcode-alpha` provider.
-Cheap tiers carry the bulk of the work ($0.15–$0.16 per 1M input); the
-$0.66–$1.00 tiers are reserved for `slow` and `advisor`. The global config
+Every profile gets three model presets. Each one snapshots every role, so
+switching never silently clears one:
+
+- `commandcode` — deepseek v4.1 flash `default`, flash-fast `smol`, v4-pro
+  `slow`, GPT-6.1 Terra `advisor`, all via `commandcode-alpha`. Cheap tiers
+  carry the token volume ($0.15–$0.16 per 1M input); the $0.66–$1.00 tiers
+  are reserved for `slow` and `advisor`.
+- `claude` — Opus 5.5 `default`, Sonnet 5.5 `smol`/`slow` via `anthropic`,
+  GPT-6.1 Sol `advisor` via `openai-codex`.
+- `openai` — GPT-6.1 Sol `default`, Terra `smol`/`slow` via `openai-codex`,
+  Claude Fable 5.2 `advisor` via `anthropic`.
+
+`judge` stays on `commandcode/typesafe/jev` in all three. The global config
 additionally pins `modelRoles.default` to deepseek v4.1 flash, so new
-sessions start on it without switching a preset.
+sessions start there without switching a preset.
 
 Credentials, sessions, databases, caches, plugin installs, and generated
 extensions stay local. Setup markers, AutoQA consent, and Codex redemption

@@ -23,12 +23,6 @@
       "modelRoles.slow" "anthropic/claude-sonnet-5-5:high"
       "modelRoles.default" "anthropic/claude-opus-5-5:medium"
       "modelRoles.judge" "commandcode/typesafe/jev"
-      "modelPresets.commandcode.modelRoles.default" "commandcode-alpha/deepseek/deepseek-v4.1-flash"
-      "modelPresets.commandcode.modelRoles.smol" "commandcode-alpha/deepseek/deepseek-v4.1-flash-fast"
-      "modelPresets.commandcode.modelRoles.slow" "commandcode-alpha/deepseek/deepseek-v4-pro:high"
-      "modelPresets.commandcode.modelRoles.advisor" "commandcode-alpha/gpt-6.1-terra:high"
-      "modelPresets.commandcode.modelRoles.judge" "commandcode/typesafe/jev"
-      "modelPresets.commandcode.defaultThinkingLevel" "auto"
       "defaultThinkingLevel" "auto"
       "advisor.enabled" false
       "statusLine.preset" "custom"
@@ -36,6 +30,33 @@
       "statusLine.rightSegments" (list "token_rate" "context_pct" "cost")
       "composer.shape" "box"
       "bash.patterns" $bashPatterns -}}
+{{- /* Each preset snapshots every role, because switching clears the roles the
+       preset leaves out. Judge stays on commandcode/typesafe/jev everywhere. */ -}}
+{{- $presets := dict
+      "commandcode" (dict
+        "default" "commandcode-alpha/deepseek/deepseek-v4.1-flash"
+        "smol" "commandcode-alpha/deepseek/deepseek-v4.1-flash-fast"
+        "slow" "commandcode-alpha/deepseek/deepseek-v4-pro:high"
+        "advisor" "commandcode-alpha/gpt-6.1-terra:high"
+        "judge" "commandcode/typesafe/jev")
+      "claude" (dict
+        "default" "anthropic/claude-opus-5-5:medium"
+        "smol" "anthropic/claude-sonnet-5-5"
+        "slow" "anthropic/claude-sonnet-5-5:high"
+        "advisor" "openai-codex/gpt-6.1-sol:high"
+        "judge" "commandcode/typesafe/jev")
+      "openai" (dict
+        "default" "openai-codex/gpt-6.1-sol"
+        "smol" "openai-codex/gpt-6.1-terra"
+        "slow" "openai-codex/gpt-6.1-terra:high"
+        "advisor" "anthropic/claude-fable-5-2:high"
+        "judge" "commandcode/typesafe/jev") -}}
+{{- range $preset, $roles := $presets -}}
+{{-   range $role, $model := $roles -}}
+{{-     $cfg = setValueAtPath (printf "modelPresets.%s.modelRoles.%s" $preset $role) $model $cfg -}}
+{{-   end -}}
+{{-   $cfg = setValueAtPath (printf "modelPresets.%s.defaultThinkingLevel" $preset) "auto" $cfg -}}
+{{- end -}}
 {{- range $path, $value := $prefs -}}
 {{-   $cfg = setValueAtPath $path $value $cfg -}}
 {{- end -}}
