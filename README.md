@@ -62,11 +62,13 @@ standard setup without overrides. Apply chezmoi again to create its config.
 OMP itself does not inherit settings between profiles.
 
 Every profile gets the `commandcode` model preset: `/modelpreset switch
-commandcode` assigns deepseek v4.1 flash to `default`, Claude Sonnet 5.5 to
-`smol`/`slow`, GPT-6.1 Sol to `advisor`, and keeps `judge` on
+commandcode` assigns deepseek v4.1 flash to `default`, flash-fast to `smol`,
+deepseek v4-pro to `slow`, GPT-6.1 Terra to `advisor`, and keeps `judge` on
 `commandcode/typesafe/jev` — all through the `commandcode-alpha` provider.
-The global config additionally pins `modelRoles.default` to deepseek v4.1
-flash, so new sessions start on it without switching a preset.
+Cheap tiers carry the bulk of the work ($0.15–$0.16 per 1M input); the
+$0.66–$1.00 tiers are reserved for `slow` and `advisor`. The global config
+additionally pins `modelRoles.default` to deepseek v4.1 flash, so new
+sessions start on it without switching a preset.
 
 Credentials, sessions, databases, caches, plugin installs, and generated
 extensions stay local. Setup markers, AutoQA consent, and Codex redemption
