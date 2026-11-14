@@ -65,7 +65,7 @@ Every profile gets three model presets. Each one snapshots every role, so
 switching never silently clears one:
 
 - `commandcode` — deepseek v4.1 flash `default`, flash-fast `smol`, v4-pro
-  `slow`, GPT-6.1 Terra `advisor`, all via `commandcode-alpha`. Cheap tiers
+  `slow`, GPT-6.1 Terra `advisor`, all via `commandcode`. Cheap tiers
   carry the token volume ($0.15–$0.16 per 1M input); the $0.66–$1.00 tiers
   are reserved for `slow` and `advisor`.
 - `claude` — Opus 5.5 `default`, Sonnet 5.5 `smol`/`slow` via `anthropic`,
